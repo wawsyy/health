@@ -19,6 +19,12 @@ contract MentalHealthSurvey is SepoliaConfig {
 
     mapping(address => SurveyResponse[]) private _userSurveys;
 
+    /// @notice Emitted when a new survey is submitted
+    /// @param user The address of the user who submitted the survey
+    /// @param surveyIndex The index of the submitted survey
+    /// @param timestamp The timestamp when the survey was submitted
+    event SurveySubmitted(address indexed user, uint256 indexed surveyIndex, uint256 timestamp);
+
     /// @notice Submit a new mental health survey response
     /// @param stressLevel external encrypted stress level handle (0-100)
     /// @param anxietyLevel external encrypted anxiety level handle (0-100)
@@ -63,6 +69,9 @@ contract MentalHealthSurvey is SepoliaConfig {
         FHE.allow(_moodScore, msg.sender);
         FHE.allow(_sleepQuality, msg.sender);
         FHE.allow(_energyLevel, msg.sender);
+
+        // Emit event for the new survey
+        emit SurveySubmitted(msg.sender, _userSurveys[msg.sender].length - 1, block.timestamp);
     }
 
     /// @notice Get the latest survey for a user
