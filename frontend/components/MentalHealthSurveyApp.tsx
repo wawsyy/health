@@ -445,56 +445,65 @@ export function MentalHealthSurveyApp() {
               Your responses are encrypted and stored securely. Only you can decrypt them.
             </p>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Stress Level (0-100)
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Stress Level: {form.stressLevel || 0}/100
                 </label>
                 <input
-                  type="number"
+                  type="range"
                   name="stressLevel"
                   min="0"
                   max="100"
                   required
                   value={form.stressLevel}
                   onChange={onChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter stress level (0-100)"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>Low</span>
+                  <span>High</span>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Anxiety Level (0-100)
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Anxiety Level: {form.anxietyLevel || 0}/100
                 </label>
                 <input
-                  type="number"
+                  type="range"
                   name="anxietyLevel"
                   min="0"
                   max="100"
                   required
                   value={form.anxietyLevel}
                   onChange={onChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter anxiety level (0-100)"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>Calm</span>
+                  <span>Very Anxious</span>
+                </div>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Mood Score (0-100)
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Mood Score: {form.moodScore || 0}/100
                 </label>
                 <input
-                  type="number"
+                  type="range"
                   name="moodScore"
                   min="0"
                   max="100"
                   required
                   value={form.moodScore}
                   onChange={onChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Enter mood score (0-100)"
+                  className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer slider"
                 />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>Poor</span>
+                  <span>Excellent</span>
+                </div>
               </div>
 
               <div>
