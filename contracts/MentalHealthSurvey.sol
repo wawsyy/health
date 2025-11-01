@@ -20,11 +20,11 @@ contract MentalHealthSurvey is SepoliaConfig {
     mapping(address => SurveyResponse[]) private _userSurveys;
 
     /// @notice Submit a new mental health survey response
-    /// @param stressLevel external encrypted stress level handle
-    /// @param anxietyLevel external encrypted anxiety level handle
-    /// @param moodScore external encrypted mood score handle
-    /// @param sleepQuality external encrypted sleep quality handle
-    /// @param energyLevel external encrypted energy level handle
+    /// @param stressLevel external encrypted stress level handle (0-100)
+    /// @param anxietyLevel external encrypted anxiety level handle (0-100)
+    /// @param moodScore external encrypted mood score handle (0-100)
+    /// @param sleepQuality external encrypted sleep quality handle (0-100)
+    /// @param energyLevel external encrypted energy level handle (0-100)
     /// @param inputProof input proof returned by the relayer SDK encrypt()
     function submitSurvey(
         externalEuint32 stressLevel,
@@ -63,6 +63,39 @@ contract MentalHealthSurvey is SepoliaConfig {
         FHE.allow(_moodScore, msg.sender);
         FHE.allow(_sleepQuality, msg.sender);
         FHE.allow(_energyLevel, msg.sender);
+    }
+
+    /// @notice Get the latest survey for a user
+    /// @param account The user's address
+    /// @return stressLevel The encrypted stress level
+    /// @return anxietyLevel The encrypted anxiety level
+    /// @return moodScore The encrypted mood score
+    /// @return sleepQuality The encrypted sleep quality
+    /// @return energyLevel The encrypted energy level
+    /// @return timestamp The timestamp of the latest survey
+    function getLatestSurvey(address account)
+        external
+        view
+        returns (
+            euint32 stressLevel,
+            euint32 anxietyLevel,
+            euint32 moodScore,
+            euint32 sleepQuality,
+            euint32 energyLevel,
+            uint256 timestamp
+        )
+    {
+        require(_userSurveys[account].length > 0, "No surveys found for this user");
+        uint256 latestIndex = _userSurveys[account].length - 1;
+        SurveyResponse storage survey = _userSurveys[account][latestIndex];
+        return (
+            survey.stressLevel,
+            survey.anxietyLevel,
+            survey.moodScore,
+            survey.sleepQuality,
+            survey.energyLevel,
+            survey.timestamp
+        );
     }
 
     /// @notice Get the number of surveys submitted by a user
