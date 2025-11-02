@@ -199,5 +199,77 @@ describe("MentalHealthSurvey", function () {
     const count = await mentalHealthSurveyContract.getSurveyCount(signers.alice.address);
     expect(count).to.eq(2);
   });
+
+  it("should get latest survey correctly", async function () {
+    // Submit first survey
+    const encryptedInput1 = fhevm
+      .createEncryptedInput(mentalHealthSurveyContractAddress, signers.alice.address)
+      .add32(70) // stressLevel
+      .add32(50) // anxietyLevel
+      .add32(60) // moodScore
+      .add32(75) // sleepQuality
+      .add32(80) // energyLevel
+      .encrypt();
+
+    await mentalHealthSurveyContract
+      .connect(signers.alice)
+      .submitSurvey(
+        encryptedInput1.handles[0],
+        encryptedInput1.handles[1],
+        encryptedInput1.handles[2],
+        encryptedInput1.handles[3],
+        encryptedInput1.handles[4],
+        encryptedInput1.inputProof
+      )
+      .then((tx) => tx.wait());
+
+    // Submit second survey (latest)
+    const encryptedInput2 = fhevm
+      .createEncryptedInput(mentalHealthSurveyContractAddress, signers.alice.address)
+      .add32(80) // stressLevel
+      .add32(65) // anxietyLevel
+      .add32(55) // moodScore
+      .add32(70) // sleepQuality
+      .add32(75) // energyLevel
+      .encrypt();
+
+    const tx = await mentalHealthSurveyContract
+      .connect(signers.alice)
+      .submitSurvey(
+        encryptedInput2.handles[0],
+        encryptedInput2.handles[1],
+        encryptedInput2.handles[2],
+        encryptedInput2.handles[3],
+        encryptedInput2.handles[4],
+        encryptedInput2.inputProof
+      )
+      .then((tx) => tx.wait());
+
+    // Test getLatestSurvey
+    const latestSurvey = await mentalHealthSurveyContract.getLatestSurvey(signers.alice.address);
+
+    // Decrypt and verify the latest survey values
+    const stressLevel = await fhevm.decrypt32(latestSurvey.stressLevel);
+    const anxietyLevel = await fhevm.decrypt32(latestSurvey.anxietyLevel);
+    const moodScore = await fhevm.decrypt32(latestSurvey.moodScore);
+    const sleepQuality = await fhevm.decrypt32(latestSurvey.sleepQuality);
+    const energyLevel = await fhevm.decrypt32(latestSurvey.energyLevel);
+
+    expect(stressLevel).to.eq(80);
+    expect(anxietyLevel).to.eq(65);
+    expect(moodScore).to.eq(55);
+    expect(sleepQuality).to.eq(70);
+    expect(energyLevel).to.eq(75);
+
+    // Verify timestamp is recent (within last few seconds)
+    const now = Math.floor(Date.now() / 1000);
+    expect(Number(latestSurvey.timestamp)).to.be.closeTo(now, 10);
+  });
+
+  it("should revert when getting latest survey for user with no surveys", async function () {
+    await expect(
+      mentalHealthSurveyContract.getLatestSurvey(signers.bob.address)
+    ).to.be.revertedWith("No surveys found for this user");
+  });
 });
 
