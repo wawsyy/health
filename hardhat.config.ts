@@ -61,6 +61,25 @@ const config: HardhatUserConfig = {
       chainId: 11155111,
       url: `https://sepolia.infura.io/v3/${INFURA_API_KEY}`,
     },
+    mainnet: {
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : {
+        mnemonic: MNEMONIC,
+        path: "m/44'/60'/0'/0/",
+        count: 5, // Fewer accounts on mainnet for security
+      },
+      chainId: 1,
+      url: `https://mainnet.infura.io/v3/${INFURA_API_KEY}`,
+      gasPrice: 20000000000, // 20 gwei
+    },
+    polygon: {
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : {
+        mnemonic: MNEMONIC,
+        path: "m/44'/60'/0'/0/",
+        count: 10,
+      },
+      chainId: 137,
+      url: `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+    },
   },
   paths: {
     artifacts: "./artifacts",
