@@ -20,17 +20,19 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`mental-health-bg text-foreground antialiased`}>
-        <div className="fixed inset-0 w-full h-full mental-health-bg z-[-20] min-w-[850px]"></div>
-        <main className="flex flex-col max-w-screen-lg mx-auto pb-20 min-w-[850px]">
-          <nav className="flex w-full px-3 md:px-0 h-fit py-10 justify-between items-center">
+        <div className="fixed inset-0 w-full h-full mental-health-bg z-[-20]"></div>
+        <main className="flex flex-col max-w-screen-lg mx-auto pb-20 px-4">
+          <nav className="flex flex-col sm:flex-row w-full h-fit py-6 sm:py-10 justify-between items-center gap-4">
             <Image
               src="/logo.svg"
               alt="Mental Health Survey Logo"
-              width={120}
-              height={120}
-              className="rounded-full"
+              width={80}
+              height={80}
+              className="rounded-full sm:w-[120px] sm:h-[120px]"
             />
-            <h1 className="text-3xl font-bold text-white">Encrypted Mental Health Survey</h1>
+            <h1 className="text-xl sm:text-3xl font-bold text-white text-center sm:text-left">
+              Encrypted Mental Health Survey
+            </h1>
           </nav>
           <Providers>{children}</Providers>
         </main>
