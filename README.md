@@ -8,6 +8,9 @@ A privacy-preserving mental health questionnaire system built with FHEVM (Fully 
 - **Privacy-Preserving**: Platform cannot see plaintext survey responses
 - **User-Controlled Decryption**: Only the user who submitted the survey can decrypt their own data
 - **Multiple Surveys**: Users can submit multiple surveys over time
+- **Interactive Sliders**: Intuitive range sliders for precise input with real-time feedback
+- **Latest Survey Access**: Convenient function to retrieve the most recent survey data
+- **Enhanced Loading States**: Animated loading indicators and clear status messages
 - **Beautiful UI**: Modern, user-friendly interface built with Next.js and Tailwind CSS
 - **Rainbow Wallet Integration**: Easy wallet connection using RainbowKit
 
