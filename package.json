@@ -73,6 +73,11 @@
     "prettier:write": "prettier --write \"**/*.{js,json,md,sol,ts,yml}\"",
     "test": "hardhat test",
     "test:sepolia": "hardhat test --network sepolia",
+    "deploy:local": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat deploy --network localhost",
+    "deploy:sepolia": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat deploy --network sepolia",
+    "deploy:mainnet": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat deploy --network mainnet",
+    "deploy:polygon": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat deploy --network polygon",
+    "verify:sepolia": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat verify --network sepolia",
     "build:ts": "tsc --project tsconfig.json",
     "typechain": "cross-env TS_NODE_TRANSPILE_ONLY=true hardhat typechain"
   },
