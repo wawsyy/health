@@ -17,10 +17,40 @@ tmp
 
 # files
 *.env
+*.env.local
+*.env.development.local
+*.env.test.local
+*.env.production.local
 *.log
 .DS_Store
 .pnp.*
 coverage.json
 pnpm-lock.yaml
 yarn.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Build outputs
+.next/
+out/
+build/
+dist/
+
+# Testing
+.nyc_output
+coverage/
+
+# Temporary files
+*.tmp
+*.temp
 
