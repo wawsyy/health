@@ -158,6 +158,45 @@ Each mental health survey includes the following encrypted fields (0-100 scale):
 - [FHEVM Testing Guide](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat/write_test)
 - [FHEVM Hardhat Plugin](https://docs.zama.ai/protocol/solidity-guides/development-guide/hardhat)
 
+## Deployment
+
+### Vercel Deployment (Recommended)
+
+1. **Connect to Vercel**
+   ```bash
+   # Vercel will automatically detect the configuration
+   # Root Directory: frontend/
+   # Framework: Next.js
+   ```
+
+2. **Set Environment Variables**
+   - `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID`: Your WalletConnect project ID
+
+3. **Deploy**
+   - Vercel automatically builds and deploys on git push
+
+### Manual Deployment
+
+```bash
+# Install dependencies
+npm install
+cd frontend && npm install && cd ..
+
+# Build contracts
+npm run compile
+
+# Deploy contracts (choose network)
+npm run deploy:sepolia
+npm run deploy:mainnet
+npm run deploy:polygon
+
+# Generate ABI for frontend
+cd frontend && npm run genabi && cd ..
+
+# Build frontend
+cd frontend && npm run build
+```
+
 ## License
 
 This project is licensed under the MIT License.
