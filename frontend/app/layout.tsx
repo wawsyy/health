@@ -6,9 +6,19 @@ import Image from "next/image";
 export const metadata: Metadata = {
   title: "Encrypted Mental Health Survey",
   description: "Privacy-preserving mental health questionnaire using FHEVM",
+  keywords: ["mental health", "privacy", "FHEVM", "blockchain", "survey", "encryption"],
+  authors: [{ name: "Encrypted Mental Health Survey Team" }],
   icons: {
-    icon: "/logo.svg",
-    apple: "/logo.svg",
+    icon: [
+      { url: "/logo.svg", type: "image/svg+xml" },
+      { url: "/logo.png", type: "image/png" },
+    ],
+    apple: "/logo.png",
+  },
+  openGraph: {
+    title: "Encrypted Mental Health Survey",
+    description: "Privacy-preserving mental health questionnaire using FHEVM",
+    type: "website",
   },
 };
 
