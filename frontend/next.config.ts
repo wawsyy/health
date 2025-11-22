@@ -16,7 +16,22 @@ const nextConfig: NextConfig = {
   //       ],
   //     },
   //   ]);
-  // }
+  // },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: false,
+  },
+  webpack: (config) => {
+    // Ensure path aliases are properly resolved in webpack
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, '.'),
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
