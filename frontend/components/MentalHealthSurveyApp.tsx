@@ -41,7 +41,7 @@ export function MentalHealthSurveyApp() {
   }, []);
 
   // Initialize FHEVM instance
-  const { instance: fhevmInstance, status: fhevmStatus } = useFhevm({
+  const { instance: fhevmInstance, status: fhevmStatus, error: fhevmError } = useFhevm({
     provider,
     chainId,
     enabled: isConnected && !!chainId,
@@ -100,7 +100,13 @@ export function MentalHealthSurveyApp() {
     }
 
     if (!fhevmInstance || fhevmStatus !== "ready") {
-      setMessage("FHEVM encryption service is not ready. Please wait...");
+      if (fhevmStatus === "error") {
+        setMessage("FHEVM encryption service failed to initialize. This may be due to relayer service issues or network connectivity. Please refresh the page and try again.");
+      } else if (fhevmStatus === "loading") {
+        setMessage("FHEVM encryption service is initializing. Please wait...");
+      } else {
+        setMessage("FHEVM encryption service is not ready. Please wait...");
+      }
       return;
     }
 
@@ -444,6 +450,28 @@ export function MentalHealthSurveyApp() {
             <p className="text-gray-600 mb-6">
               Your responses are encrypted and stored securely. Only you can decrypt them.
             </p>
+
+            {fhevmStatus === "error" && (
+              <div className="mb-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+                <p className="text-yellow-800 text-sm">
+                  <strong>Warning:</strong> FHEVM encryption service is unavailable. This may be due to:
+                  <ul className="list-disc list-inside mt-2 space-y-1">
+                    <li>Relayer service connection issues (relayer.testnet.zama.cloud)</li>
+                    <li>Network connectivity problems</li>
+                    <li>Browser compatibility (requires SharedArrayBuffer support)</li>
+                  </ul>
+                  <span className="block mt-2">Please refresh the page or try again later.</span>
+                </p>
+              </div>
+            )}
+
+            {fhevmStatus === "loading" && (
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-800 text-sm">
+                  Initializing FHEVM encryption service... This may take a few moments.
+                </p>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
